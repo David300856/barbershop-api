@@ -1,25 +1,11 @@
 import express from "express";
 import { pool } from "./config/database";
-import { getAllServices } from "./repositories/services.repository"; 
+import servicesRoutes from "./routes/services.routes"
 
 const app = express();
 
 app.use(express.json());
-
-app.get("/services", async (req, res) => {
-
-  try{
-
-  const result = await getAllServices();
-
-  res.json(
-    result);
-
-}catch (error) {
-  console.error(error);
-  res.status(500).json({ error: "Database error" });
-}
-}); 
+app.use("/services", servicesRoutes);
 
 
 
