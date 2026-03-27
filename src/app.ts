@@ -1,5 +1,6 @@
 import express from "express";
 import { pool } from "./config/database";
+import { getAllServices } from "./repositories/services.repository"; 
 
 const app = express();
 
@@ -9,10 +10,10 @@ app.get("/services", async (req, res) => {
 
   try{
 
-  const result = await pool.query("SELECT * FROM services");
+  const result = await getAllServices();
 
   res.json(
-    result.rows);
+    result);
 
 }catch (error) {
   console.error(error);
@@ -72,7 +73,7 @@ app.put("/services/:id", async (req, res) =>{
 
     try{
      const { id } = req.params;
-     
+
      const result = await pool.query( 
       "DELETE FROM services WHERE id = $1 RETURNING *", [id]);
 
